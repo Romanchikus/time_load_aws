@@ -1,0 +1,36 @@
+service: loadWebsitesAws
+# time_load_websites
+frameworkVersion: '2'
+    
+provider:
+  name: aws
+  runtime: python3.7
+  region: us-east-2
+
+plugins:
+  - serverless-python-requirements
+custom:
+  pythonRequirements:
+    dockerizePip: false
+
+
+package:
+  individually: false
+  exclude:
+    - '**/*'
+  include:
+    - handler.py
+
+functions:
+  hello:
+    handler: handler.hello
+    events:
+      - http:
+          path: hello
+          method: post
+          integration: lambda
+          request:
+            template:
+              application/json: '{"website" : $input.json(''website'')}'
+              application/x-www-form-urlencoded: null
+                
