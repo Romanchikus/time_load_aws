@@ -1,0 +1,43 @@
+---
+swagger: "2.0"
+info:
+  version: "1"
+  title: "dev-loadWebsitesAws"
+host: "totsjc3t30.execute-api.us-east-2.amazonaws.com"
+basePath: "/dev"
+schemes:
+- "https"
+paths:
+  /hello:
+    post:
+      consumes:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "single-example-good"
+        description: "Valid to its schema"
+        required: false
+        schema:
+          type: "object"
+          example:
+            website:
+            - "https://www.youtube.com/"
+            - "https://www.mama.com/"
+          additionalProperties:
+            type: "object"
+            properties:
+              website:
+                type: "array"
+      responses:
+        "200":
+          description: "200 response"
+      x-amazon-apigateway-integration:
+        type: "aws"
+        uri: "arn:aws:apigateway:us-east-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-2:938668680897:function:loadWebsitesAws-dev-hello/invocations"
+        responses:
+          default:
+            statusCode: "200"
+        requestTemplates:
+          application/json: "{\"website\" : $input.json('website')}"
+        passthroughBehavior: "never"
+        httpMethod: "POST"
