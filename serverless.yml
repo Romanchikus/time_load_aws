@@ -33,4 +33,10 @@ functions:
             template:
               application/json: '{"website" : $input.json(''website'')}'
               application/x-www-form-urlencoded: null
-                
+          response:
+            headers:
+              Content-Type: "'application/json'"
+            template: $input.json('$')
+            statusCodes:
+              200:
+                pattern: ''
